@@ -1,6 +1,6 @@
 package com.institutosemprealerta.semprealerta.application.service;
 
-import com.institutosemprealerta.semprealerta.domain.user.User;
+import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
 
 public interface UserService {
     void save(User user);

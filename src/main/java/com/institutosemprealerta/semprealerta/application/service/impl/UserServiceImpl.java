@@ -1,7 +1,7 @@
 package com.institutosemprealerta.semprealerta.application.service.impl;
 
 import com.institutosemprealerta.semprealerta.application.service.UserService;
-import com.institutosemprealerta.semprealerta.domain.user.User;
+import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
 import com.institutosemprealerta.semprealerta.domain.ports.out.UserRepository;
 import org.springframework.stereotype.Service;
 
