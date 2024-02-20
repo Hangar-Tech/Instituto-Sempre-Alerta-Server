@@ -31,6 +31,7 @@ public class JpaUserRepositoryAdapter implements UserRepository {
         User userToUpdate = this.userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        user.setId(userToUpdate.getId());
         user.setRegistration(userToUpdate.getRegistration());
 
         this.userRepository.save(user);
