@@ -1,7 +1,6 @@
 package com.institutosemprealerta.semprealerta.domain.ports.out;
 
-import com.institutosemprealerta.semprealerta.domain.user.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
 
 import java.util.Optional;
 

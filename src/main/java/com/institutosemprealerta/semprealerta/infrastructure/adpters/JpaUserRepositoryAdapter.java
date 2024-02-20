@@ -1,9 +1,8 @@
 package com.institutosemprealerta.semprealerta.infrastructure.adpters;
 
 import com.institutosemprealerta.semprealerta.domain.ports.out.UserRepository;
-import com.institutosemprealerta.semprealerta.domain.user.User;
+import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
 import com.institutosemprealerta.semprealerta.infrastructure.repositories.JpaUserRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
