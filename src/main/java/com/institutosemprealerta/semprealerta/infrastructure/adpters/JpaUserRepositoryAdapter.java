@@ -44,4 +44,14 @@ public class JpaUserRepositoryAdapter implements UserRepository {
 
         this.userRepository.delete(userToDelete);
     }
+
+    @Override
+    public Optional<User> findByRegistration(int registration) {
+        return this.userRepository.findById(registration);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return this.userRepository.findByEmail(email);
+    }
 }
