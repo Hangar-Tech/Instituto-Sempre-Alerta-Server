@@ -1,4 +1,4 @@
-package com.institutosemprealerta.semprealerta.domain.user;
+package com.institutosemprealerta.semprealerta.infrastructure.entity.user;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

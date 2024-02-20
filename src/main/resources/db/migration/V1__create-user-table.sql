@@ -6,6 +6,7 @@ CREATE TABLE users
     gender       VARCHAR(255),
     birth_date   date,
     roles        SMALLINT,
+    created_at   TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
     email        VARCHAR(255),
     phone        VARCHAR(255),
     street       VARCHAR(255),
