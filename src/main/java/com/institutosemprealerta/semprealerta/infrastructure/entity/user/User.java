@@ -1,7 +1,8 @@
 package com.institutosemprealerta.semprealerta.infrastructure.entity.user;
 
 
-import com.institutosemprealerta.semprealerta.domain.ports.model.UserDTO;
+import com.institutosemprealerta.semprealerta.domain.model.UserDTO;
+import com.institutosemprealerta.semprealerta.utils.DateManipulation;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +22,9 @@ import java.util.Set;
 @Setter
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true)
     private int registration;
     private String name;
     private String password;
@@ -53,11 +58,12 @@ public class User {
     }
 
     public User fromModelToDomain(UserDTO dto) {
+        LocalDate birth = DateManipulation.stringToLocalDate(dto.birthDate());
         return new User(
                 dto.name(),
                 dto.password(),
                 dto.gender(),
-                dto.birthDate(),
+                birth,
                 dto.roles(),
                 new Contact(dto.email(), dto.phone()),
                 new Address(dto.street(), dto.number(), dto.city(), dto.zipCode())
@@ -65,15 +71,17 @@ public class User {
     }
 
 
-
     private int generateRegistration() {
         Set<Integer> registrations = new HashSet<>(8);
 
         while (registrations.size() < 8) {
             for (int i = 0; i < 8; i++) {
-                registrations.add((int) (Math.random() * 10));
+                int digit = (int) (Math.random() * 9) + 1;
+                registrations.add(digit);
             }
         }
-        return Integer.parseInt(registrations.toString());
+        StringBuilder builder = new StringBuilder();
+        registrations.forEach(builder::append);
+        return Integer.parseInt(builder.toString());
     }
 }

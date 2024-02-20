@@ -8,4 +8,5 @@ public interface UserService {
     void delete(int id);
     User findByRegistration(int registration);
     User findByEmail(String email);
+    User findById(int id);
 }

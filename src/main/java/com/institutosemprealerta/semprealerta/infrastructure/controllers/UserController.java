@@ -26,7 +26,13 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> findById(@PathVariable int id) {
-        User userFound = userService.findByRegistration(id);
+        User userFound = userService.findById(id);
+        return ResponseEntity.ok().body(UserResponse.toResponse(userFound));
+    }
+
+    @GetMapping("/registration/{reg}")
+    public ResponseEntity<UserResponse> findByRegistration(@PathVariable int reg) {
+        User userFound = userService.findByRegistration(reg);
         return ResponseEntity.ok().body(UserResponse.toResponse(userFound));
     }
 

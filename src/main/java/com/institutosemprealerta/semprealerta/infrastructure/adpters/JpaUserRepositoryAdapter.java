@@ -46,7 +46,7 @@ public class JpaUserRepositoryAdapter implements UserRepository {
 
     @Override
     public Optional<User> findByRegistration(int registration) {
-        return this.userRepository.findById(registration);
+        return this.userRepository.findByRegistration(registration);
     }
 
     @Override
