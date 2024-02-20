@@ -46,7 +46,7 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     }
 
     @Override
-    public Optional<User> findByRegistration(int registration) {
+    public Optional<User> findByRegistration(String registration) {
         return this.userRepository.findByRegistration(registration);
     }
 
@@ -54,4 +54,6 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     public Optional<User> findByEmail(String email) {
         return this.userRepository.findByEmail(email);
     }
+
+
 }

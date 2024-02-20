@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByRegistration(int registration) {
+    public User findByRegistration(String registration) {
         return this.userRepository.findByRegistration(registration)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }

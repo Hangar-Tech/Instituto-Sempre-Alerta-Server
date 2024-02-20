@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping("/registration/{reg}")
-    public ResponseEntity<UserResponse> findByRegistration(@PathVariable int reg) {
+    public ResponseEntity<UserResponse> findByRegistration(@PathVariable String reg) {
         User userFound = userService.findByRegistration(reg);
         return ResponseEntity.ok().body(UserResponse.toResponse(userFound));
     }

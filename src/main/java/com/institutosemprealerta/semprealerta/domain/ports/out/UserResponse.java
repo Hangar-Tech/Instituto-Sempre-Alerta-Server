@@ -9,7 +9,7 @@ import jakarta.persistence.Embedded;
 import java.time.LocalDate;
 
 public record UserResponse(
-         int registration,
+         String registration,
          String name,
 
          String gender,

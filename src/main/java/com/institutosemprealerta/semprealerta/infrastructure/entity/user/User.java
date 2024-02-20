@@ -7,13 +7,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Random;
+
 
 @Entity
 @Table(name = "users")
@@ -24,7 +22,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-    private int registration;
+    private String registration;
     private String name;
     private String password;
     private String gender;
@@ -42,11 +40,10 @@ public class User {
     private LocalDateTime createdAt;
 
     public User() {
-        this.registration = generateRegistration();
     }
 
+
     public User(String name, String password, String gender, LocalDate birthDate, UserRoles roles, Contact contact, Address address) {
-        this.registration = this.generateRegistration();
         this.name = name;
         this.password = password;
         this.gender = gender;
@@ -54,6 +51,24 @@ public class User {
         this.roles = roles;
         this.contact = contact;
         this.address = address;
+    }
+
+    @PrePersist
+    public void generateRegistration() {
+        String prefix = this.name.substring(0, 3).toLowerCase() + "-";
+        this.registration = generateRegistration(prefix);
+    }
+
+    private String  generateRegistration(String prefix) {
+        StringBuilder registration = new StringBuilder(prefix);
+        Random random = new Random();
+
+        for (int i = 0; i < 8; i++) {
+            int digit = random.nextInt(10);
+            registration.append(digit);
+        }
+
+        return registration.toString();
     }
 
     public User fromModelToDomain(UserDTO dto) {
@@ -67,20 +82,5 @@ public class User {
                 new Contact(dto.email(), dto.phone()),
                 new Address(dto.street(), dto.number(), dto.city(), dto.zipCode())
         );
-    }
-
-
-    private int generateRegistration() {
-        Set<Integer> registrations = new HashSet<>(8);
-
-        while (registrations.size() < 8) {
-            for (int i = 0; i < 8; i++) {
-                int digit = (int) (Math.random() * 9) + 1;
-                registrations.add(digit);
-            }
-        }
-        StringBuilder builder = new StringBuilder();
-        registrations.forEach(builder::append);
-        return Integer.parseInt(builder.toString());
     }
 }
