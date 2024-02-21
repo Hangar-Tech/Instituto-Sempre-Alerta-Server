@@ -1,0 +1,39 @@
+name: Check for conflicts
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-conflicts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check for conflicts
+        id: check
+        run: |
+          git fetch origin
+          git merge-base --is-ancestor HEAD FETCH_HEAD || echo "conflict=true" >> $GITHUB_ENV
+
+      - name: Add conflict tag
+        if: env.conflict == 'true'
+        uses: actions/github-script@v4
+        with:
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: 'This pull request has conflicts. Please resolve them before merging.'
+            });
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['conflict']
+            });
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
