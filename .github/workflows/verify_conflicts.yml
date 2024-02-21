@@ -1,39 +1,22 @@
-name: Check for conflicts
-
 on:
-  pull_request:
+  push:
     branches:
-      - main
-
+      - developer
+permissions: {}
 jobs:
-  check-conflicts:
+  conflicts:
+    permissions:
+      pull-requests: write # to add labels to pull requests
+
     runs-on: ubuntu-latest
+    if: ( github.event.pull_request.head.repo.full_name == 'Hangar-Tech/Instituto-Sempre-Alerta-Server' || github.repository == 'Hangar-Tech/Instituto-Sempre-Alerta-Server' )
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Check for conflicts
-        id: check
-        run: |
-          git fetch origin
-          git merge-base --is-ancestor HEAD FETCH_HEAD || echo "conflict=true" >> $GITHUB_ENV
-
-      - name: Add conflict tag
-        if: env.conflict == 'true'
-        uses: actions/github-script@v4
+      # improve the chance that the mergeable status is computed
+      #- uses: mschilde/auto-label-merge-conflicts@master
+      # use fork to use custom timeout need https://github.com/mschilde/auto-label-merge-conflicts/pull/43
+      - uses: atoomic/auto-label-merge-conflicts@custom
         with:
-          script: |
-            github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: 'This pull request has conflicts. Please resolve them before merging.'
-            });
-            github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              labels: ['conflict']
-            });
-        env:
+          CONFLICT_LABEL_NAME: "conflict"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAX_RETRIES: 600 # 600 * 10 sec => 100 minutes
+          WAIT_MS: 10000 # 10 sec
