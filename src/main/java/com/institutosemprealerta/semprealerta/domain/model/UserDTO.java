@@ -7,17 +7,24 @@ import com.institutosemprealerta.semprealerta.infrastructure.entity.user.Contact
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.UserRoles;
 import com.institutosemprealerta.semprealerta.utils.DateManipulation;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public record UserDTO(
+        @NotBlank
         String name,
+        @Email
         String email,
+        @NotBlank
         String password,
+        @NotBlank
         String phone,
         String gender,
-        String birthDate,
+        @PastOrPresent
+        LocalDate birthDate,
+        @NotNull
         UserRoles roles,
         String street,
         String number,
@@ -26,7 +33,7 @@ public record UserDTO(
 
 ) {
     public User toDomain() {
-        LocalDate birth = DateManipulation.stringToLocalDate(birthDate);
+        //LocalDate birth = DateManipulation.stringToLocalDate(birthDate);
         Contact contact = new Contact(
                 email,
                 phone
@@ -42,7 +49,7 @@ public record UserDTO(
                 name,
                 password,
                 gender,
-                birth,
+                birthDate,
                 roles,
                 contact,
                 address

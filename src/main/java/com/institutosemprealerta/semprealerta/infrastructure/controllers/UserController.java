@@ -4,6 +4,7 @@ import com.institutosemprealerta.semprealerta.application.service.UserService;
 import com.institutosemprealerta.semprealerta.domain.model.UserDTO;
 import com.institutosemprealerta.semprealerta.domain.ports.out.UserResponse;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
+import jakarta.validation.Valid;
 import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody UserDTO user) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO user) {
         userService.save(user.toDomain());
         return ResponseEntity.status(Response.SC_CREATED).build();
     }

@@ -72,12 +72,12 @@ public class User {
     }
 
     public User fromModelToDomain(UserDTO dto) {
-        LocalDate birth = DateManipulation.stringToLocalDate(dto.birthDate());
+        //LocalDate birth = DateManipulation.stringToLocalDate(dto.birthDate());
         return new User(
                 dto.name(),
                 dto.password(),
                 dto.gender(),
-                birth,
+                dto.birthDate(),
                 dto.roles(),
                 new Contact(dto.email(), dto.phone()),
                 new Address(dto.street(), dto.number(), dto.city(), dto.zipCode())
