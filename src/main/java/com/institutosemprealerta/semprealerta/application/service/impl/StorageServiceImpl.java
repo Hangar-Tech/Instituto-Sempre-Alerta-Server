@@ -1,7 +1,11 @@
 package com.institutosemprealerta.semprealerta.application.service.impl;
 
 import com.institutosemprealerta.semprealerta.application.service.StorageService;
+import com.institutosemprealerta.semprealerta.domain.model.File;
+import com.institutosemprealerta.semprealerta.domain.ports.out.FileRepository;
+import com.institutosemprealerta.semprealerta.domain.ports.out.responses.FileResponse;
 import com.institutosemprealerta.semprealerta.infrastructure.config.FileStorageProperties;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -15,15 +19,20 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Service
+@Log4j2
 public class StorageServiceImpl implements StorageService {
     private final Path fileStorageLocation;
+    private final FileRepository fileRepository;
 
-    public StorageServiceImpl(FileStorageProperties fileStorageProperties) {
+    public StorageServiceImpl(FileStorageProperties fileStorageProperties, FileRepository fileRepository) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
+        this.fileRepository = fileRepository;
     }
 
     @Override
@@ -36,16 +45,27 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public String store(MultipartFile file) {
+    public String store(MultipartFile file, String fileType) {
         if (file.getOriginalFilename() == null || file.getOriginalFilename().isEmpty()) {
-            throw new RuntimeException("Failed to store empty file " + file.getOriginalFilename());
+            throw new RuntimeException("File name is empty");
         }
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
             Path targetLocation = fileStorageLocation.resolve(fileName);
             init();
+
             file.transferTo(targetLocation.toFile());
+
+            String fileDownloadUri = "/api/v1/files/download/" + fileName;
+
+            File fileData = File.builder()
+                    .fileName(fileName)
+                    .fileType(fileType)
+                    .fileDownloadUri(fileDownloadUri)
+                    .build();
+
+            this.fileRepository.save(fileData);
         } catch (IOException e) {
             throw new RuntimeException("Could not store file " + fileName + ". Please try again!", e);
         }
@@ -53,14 +73,9 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public Stream<Path> loadAll() {
-        try {
-            return Files.walk(this.fileStorageLocation, 1)
-                    .filter(path -> !path.equals(this.fileStorageLocation))
-                    .map(this.fileStorageLocation::relativize);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public List<FileResponse> loadAll() {
+
+        return this.fileRepository.listAll();
     }
 
     @Override

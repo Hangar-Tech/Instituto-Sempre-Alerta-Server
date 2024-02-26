@@ -2,7 +2,7 @@ package com.institutosemprealerta.semprealerta.infrastructure.controllers;
 
 import com.institutosemprealerta.semprealerta.application.service.UserService;
 import com.institutosemprealerta.semprealerta.domain.model.UserDTO;
-import com.institutosemprealerta.semprealerta.domain.ports.out.UserResponse;
+import com.institutosemprealerta.semprealerta.domain.ports.out.responses.UserResponse;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
 import jakarta.validation.Valid;
 import org.apache.catalina.connector.Response;
