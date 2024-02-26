@@ -1,6 +1,8 @@
 package com.institutosemprealerta.semprealerta.infrastructure.controllers;
 
 import com.institutosemprealerta.semprealerta.application.service.StorageService;
+import com.institutosemprealerta.semprealerta.domain.model.File;
+import com.institutosemprealerta.semprealerta.domain.ports.out.responses.FileResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -25,14 +27,15 @@ public class FilesStorageController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("file_type") String fileType) {
 
-        String fileName = storageService.store(file);
+        String fileName = storageService.store(file, fileType);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/api/v1/files/download/")
                 .path(fileName)
                 .toUriString();
+
         return ResponseEntity.ok("File uploaded successfully, file name: " + fileName + " on path: " + fileDownloadUri);
     }
 
@@ -61,10 +64,8 @@ public class FilesStorageController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<String>> listFiles() throws IOException {
-        List<String> fileNames = storageService.loadAll()
-                .map(path -> path.getFileName().toString())
-                .toList();
+    public ResponseEntity<List<FileResponse>> listFiles() throws IOException {
+        List<FileResponse> fileNames = storageService.loadAll();
 
         return ResponseEntity.ok(fileNames);
     }

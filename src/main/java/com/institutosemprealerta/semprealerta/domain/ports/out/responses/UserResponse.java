@@ -1,10 +1,9 @@
-package com.institutosemprealerta.semprealerta.domain.ports.out;
+package com.institutosemprealerta.semprealerta.domain.ports.out.responses;
 
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.Address;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.Contact;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.UserRoles;
-import jakarta.persistence.Embedded;
 
 import java.time.LocalDate;
 
