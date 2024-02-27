@@ -1,12 +1,13 @@
 package com.institutosemprealerta.semprealerta.infrastructure.entity.user.mocks;
 
+import com.institutosemprealerta.semprealerta.domain.model.UserDTO;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class UserMocks {
-    public static User returnValidUser() {
+    public static User returnValidUserEntity() {
         User user = UserEntityFactory.INSTANCE.newUser();
 
         LocalDate birthDate = LocalDate.of(1990, 1, 1);
@@ -26,13 +27,13 @@ public class UserMocks {
     }
 
     public static User returnValidUserToCreate() {
-        User user = returnValidUser();
+        User user = returnValidUserEntity();
         user.setId(null);
         return user;
     }
 
     public static User returnValidUserToUpdate() {
-        User user = returnValidUser();
+        User user = returnValidUserEntity();
         user.setRegistration("654321");
         return user;
     }
@@ -43,5 +44,23 @@ public class UserMocks {
 
     public static Address returnValidAddress() {
         return new Address("Street", "123", "NY", "123546");
+    }
+
+
+    public static UserDTO returnValidUserDTO() {
+        User user = returnValidUserEntity();
+        return new UserDTO(
+                user.getName(),
+                user.getContact().getEmail(),
+                user.getPassword(),
+                user.getContact().getPhone(),
+                user.getGender(),
+                user.getBirthDate(),
+                user.getRoles(),
+                user.getAddress().getStreet(),
+                user.getAddress().getNumber(),
+                user.getAddress().getCity(),
+                user.getAddress().getZipCode()
+        );
     }
 }

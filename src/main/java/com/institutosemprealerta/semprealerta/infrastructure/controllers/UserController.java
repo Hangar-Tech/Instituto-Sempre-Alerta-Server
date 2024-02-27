@@ -6,6 +6,7 @@ import com.institutosemprealerta.semprealerta.domain.ports.out.responses.UserRes
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
 import jakarta.validation.Valid;
 import org.apache.catalina.connector.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO user) {
         userService.save(user.toDomain());
-        return ResponseEntity.status(Response.SC_CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{id}")
@@ -40,12 +41,12 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable int id, @RequestBody UserDTO user) {
         userService.update(id, user.toDomain());
-        return ResponseEntity.status(Response.SC_NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable int id) {
         userService.delete(id);
-        return ResponseEntity.status(Response.SC_NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

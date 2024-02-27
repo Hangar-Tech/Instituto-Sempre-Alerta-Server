@@ -32,7 +32,7 @@ class JpaUserRepositoryAdapterTest {
 
     @BeforeEach
     void setUp() {
-        User userValid = UserMocks.returnValidUser();
+        User userValid = UserMocks.returnValidUserEntity();
 
         lenient().when(userRepository.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(userValid));
         lenient().when(userRepository.findByRegistration(ArgumentMatchers.anyString())).thenReturn(Optional.of(userValid));
@@ -56,7 +56,7 @@ class JpaUserRepositoryAdapterTest {
     @Test
     @DisplayName("Should Find User By Id Successfully")
     void should_findUserById_Successfully() {
-        User expectedUser = UserMocks.returnValidUser();
+        User expectedUser = UserMocks.returnValidUserEntity();
 
         User user = jpaUserRepositoryAdapter.findById(1).orElse(new User());
 
@@ -83,7 +83,7 @@ class JpaUserRepositoryAdapterTest {
     @Test
     @DisplayName("Should Find User By Registration Successfully")
     void should_findUserByRegistration_Successfully() {
-        User expectedUser = UserMocks.returnValidUser();
+        User expectedUser = UserMocks.returnValidUserEntity();
         String expectedRegistration = expectedUser.getRegistration();
         User userFound = jpaUserRepositoryAdapter.findByRegistration(expectedRegistration).orElse(new User());
 
@@ -97,7 +97,7 @@ class JpaUserRepositoryAdapterTest {
     @DisplayName("Should Find User By Email Successfully")
     void should_findUserByEmail_Successfully() {
 
-        User expectedUser = UserMocks.returnValidUser();
+        User expectedUser = UserMocks.returnValidUserEntity();
         String expectedEmail = expectedUser.getContact().getEmail();
         User userFound = jpaUserRepositoryAdapter.findByEmail(expectedEmail).orElse(new User());
 

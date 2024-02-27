@@ -29,7 +29,7 @@ class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        User userValid = UserMocks.returnValidUser();
+        User userValid = UserMocks.returnValidUserEntity();
 
         lenient().when(userRepository.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(userValid));
         lenient().when(userRepository.findByRegistration(ArgumentMatchers.anyString())).thenReturn(Optional.of(userValid));
@@ -67,7 +67,7 @@ class UserServiceImplTest {
     @Test
     @DisplayName("Should Find User By Registration Successfully")
     void should_findUserByRegistration_Successfully() {
-        User expectedUser = UserMocks.returnValidUser();
+        User expectedUser = UserMocks.returnValidUserEntity();
         User userFound = userService.findByRegistration(expectedUser.getRegistration());
 
         assertEquals(expectedUser.getRegistration(), userFound.getRegistration());
@@ -78,7 +78,7 @@ class UserServiceImplTest {
     @Test
     @DisplayName("Should Find User By Email Successfully")
     void should_findUserByEmail_Successfully() {
-        User expectedUser = UserMocks.returnValidUser();
+        User expectedUser = UserMocks.returnValidUserEntity();
         User userFound = userService.findByEmail(expectedUser.getContact().getEmail());
 
         assertEquals(expectedUser.getContact().getEmail(), userFound.getContact().getEmail());
@@ -89,7 +89,7 @@ class UserServiceImplTest {
     @Test
     @DisplayName("Should Find User By Id Successfully")
     void should_findUserById_Successfully() {
-        User expectedUser = UserMocks.returnValidUser();
+        User expectedUser = UserMocks.returnValidUserEntity();
         User userFound = userService.findById(1);
 
         assertEquals(expectedUser.getRegistration(), userFound.getRegistration());
