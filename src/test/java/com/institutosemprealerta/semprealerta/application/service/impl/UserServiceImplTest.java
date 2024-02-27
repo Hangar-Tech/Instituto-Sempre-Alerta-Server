@@ -41,6 +41,7 @@ class UserServiceImplTest {
 
     @AfterEach
     void tearDown() {
+        reset(userRepository);
     }
 
     @Test
