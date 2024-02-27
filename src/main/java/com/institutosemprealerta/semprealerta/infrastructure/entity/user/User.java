@@ -53,6 +53,8 @@ public class User {
         this.address = address;
     }
 
+
+
     @PrePersist
     public void generateRegistration() {
         String prefix = this.name.substring(0, 3).toLowerCase() + "-";
