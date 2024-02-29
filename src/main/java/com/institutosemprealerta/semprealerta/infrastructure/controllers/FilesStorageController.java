@@ -22,7 +22,6 @@ public class FilesStorageController {
     private StorageService storageService;
 
     public FilesStorageController(StorageService storageService) {
-
         this.storageService = storageService;
     }
 
