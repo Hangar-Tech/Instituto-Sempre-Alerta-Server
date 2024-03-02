@@ -4,6 +4,7 @@ import com.institutosemprealerta.semprealerta.domain.model.Post;
 import com.institutosemprealerta.semprealerta.domain.ports.out.PostRepository;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.post.PostEntity;
 import com.institutosemprealerta.semprealerta.infrastructure.repositories.JpaPostRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -18,13 +19,15 @@ public class JpaPostRepositoryAdapter implements PostRepository {
     }
 
     @Override
-    public void save(Post post) {
+    public String save(Post post) {
         PostEntity postToSave = PostEntity.fromModel(post);
-        jpaPostRepository.save(postToSave);
+        PostEntity postSaved = jpaPostRepository.save(postToSave);
+        return postSaved.getSlug();
     }
 
     @Override
     public void delete(Long id) {
+        this.findById(id);
         jpaPostRepository.deleteById(id);
     }
 
@@ -37,11 +40,9 @@ public class JpaPostRepositoryAdapter implements PostRepository {
     }
 
     @Override
-    public List<Post> listAll(Pageable pageable) {
+    public Page<Post> listAll(Pageable pageable) {
         return jpaPostRepository.findAll(pageable)
-                .stream()
-                .map(postEntity -> PostEntity.toModel(postEntity))
-                .toList();
+                .map(postEntity -> PostEntity.toModel(postEntity));
     }
 
     @Override
