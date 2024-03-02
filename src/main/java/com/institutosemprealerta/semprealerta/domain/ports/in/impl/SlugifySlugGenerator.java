@@ -2,7 +2,9 @@ package com.institutosemprealerta.semprealerta.domain.ports.in.impl;
 
 import com.github.slugify.Slugify;
 import com.institutosemprealerta.semprealerta.domain.ports.in.SlugGenerator;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SlugifySlugGenerator implements SlugGenerator {
     private final Slugify slug;
 
