@@ -1,0 +1,216 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > StorageServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.institutosemprealerta.semprealerta.application.service.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: StorageServiceImpl (com.institutosemprealerta.semprealerta.application.service.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StorageServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (7/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.5%
+  </span>
+  <span class="absValue">
+    (29/40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.institutosemprealerta.semprealerta.application.service.impl;
+&nbsp;
+&nbsp;import com.institutosemprealerta.semprealerta.application.service.StorageService;
+&nbsp;import com.institutosemprealerta.semprealerta.domain.model.File;
+&nbsp;import com.institutosemprealerta.semprealerta.domain.ports.out.FileRepository;
+&nbsp;import com.institutosemprealerta.semprealerta.domain.ports.out.responses.FileResponse;
+&nbsp;import com.institutosemprealerta.semprealerta.infrastructure.config.FileStorageProperties;
+&nbsp;import lombok.extern.log4j.Log4j2;
+&nbsp;import org.springframework.core.io.Resource;
+&nbsp;import org.springframework.core.io.UrlResource;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.util.FileSystemUtils;
+&nbsp;import org.springframework.util.StringUtils;
+&nbsp;import org.springframework.web.multipart.MultipartFile;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.MalformedURLException;
+&nbsp;import java.net.URI;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class StorageServiceImpl implements StorageService {
+&nbsp;    private final Path fileStorageLocation;
+&nbsp;    private final FileRepository fileRepository;
+&nbsp;
+<b class="fc">&nbsp;    public StorageServiceImpl(FileStorageProperties fileStorageProperties, FileRepository fileRepository) {</b>
+<b class="fc">&nbsp;        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())</b>
+<b class="fc">&nbsp;                .toAbsolutePath().normalize();</b>
+<b class="fc">&nbsp;        this.fileRepository = fileRepository;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init() {
+&nbsp;        try {
+<b class="fc">&nbsp;            Files.createDirectories(fileStorageLocation);</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Could not create the directory where the uploaded files will be stored.&quot;, e);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String store(MultipartFile file, String fileType) {
+<b class="fc">&nbsp;        if (file.getOriginalFilename() == null || file.getOriginalFilename().isEmpty()) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;File name is empty&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        String fileName = StringUtils.cleanPath(file.getOriginalFilename());</b>
+&nbsp;
+&nbsp;        try {
+<b class="fc">&nbsp;            Path targetLocation = fileStorageLocation.resolve(fileName);</b>
+<b class="fc">&nbsp;            init();</b>
+&nbsp;
+<b class="fc">&nbsp;            file.transferTo(targetLocation.toFile());</b>
+&nbsp;
+<b class="fc">&nbsp;            String fileDownloadUri = &quot;/api/v1/files/download/&quot; + fileName;</b>
+&nbsp;
+<b class="fc">&nbsp;            File fileData = File.builder()</b>
+<b class="fc">&nbsp;                    .fileName(fileName)</b>
+<b class="fc">&nbsp;                    .fileType(fileType)</b>
+<b class="fc">&nbsp;                    .fileDownloadUri(fileDownloadUri)</b>
+<b class="fc">&nbsp;                    .build();</b>
+&nbsp;
+<b class="fc">&nbsp;            this.fileRepository.save(fileData);</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Could not store file &quot; + fileName + &quot;. Please try again!&quot;, e);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return fileName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;FileResponse&gt; loadAll() {
+&nbsp;
+<b class="fc">&nbsp;        return this.fileRepository.listAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Path load(String filename) {
+<b class="fc">&nbsp;        Path file = fileStorageLocation.resolve(filename).normalize();</b>
+<b class="fc">&nbsp;        if (!Files.exists(file)) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;File not found &quot; + filename);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return file;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Resource loadAsResource(String filename) {
+<b class="fc">&nbsp;        URI fileUri = load(filename).toUri();</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            return new UrlResource(fileUri);</b>
+<b class="nc">&nbsp;        } catch (MalformedURLException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void delete(String filename) {
+<b class="fc">&nbsp;        Path file = load(filename);</b>
+&nbsp;
+&nbsp;        try {
+<b class="fc">&nbsp;            Files.deleteIfExists(file);</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void deleteAll() {
+<b class="nc">&nbsp;        FileSystemUtils.deleteRecursively(fileStorageLocation.toFile());</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-02 15:03</div>
+</div>
+</body>
+</html>

@@ -12,7 +12,7 @@ public class PostMocks {
 
     private static final Long id = faker.number().randomNumber();
     private static final String title = faker.lorem().sentence();
-    private static final String slug = faker.lorem().sentence();
+    private static final String slug = faker.internet().slug();
     private static final String content = faker.lorem().paragraph();
     private static final String banner = faker.internet().image();
     private static final LocalDateTime createdAt = LocalDateTime.now();
