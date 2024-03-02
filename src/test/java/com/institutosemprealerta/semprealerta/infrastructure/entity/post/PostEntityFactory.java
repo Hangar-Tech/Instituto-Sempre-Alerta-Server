@@ -1,5 +1,7 @@
 package com.institutosemprealerta.semprealerta.infrastructure.entity.post;
 
+import java.time.LocalDateTime;
+
 public class PostEntityFactory {
     public static PostEntityFactory INSTANCE = new PostEntityFactory();
 
@@ -21,6 +23,24 @@ public class PostEntityFactory {
                 slug,
                 content,
                 banner
+        );
+    }
+
+    public PostEntity createPostEntity(
+            Long id,
+            String title,
+            String slug,
+            String content,
+            String banner,
+            LocalDateTime createdAt
+    ) {
+        return new PostEntity(
+                id,
+                title,
+                slug,
+                content,
+                banner,
+                createdAt
         );
     }
 
