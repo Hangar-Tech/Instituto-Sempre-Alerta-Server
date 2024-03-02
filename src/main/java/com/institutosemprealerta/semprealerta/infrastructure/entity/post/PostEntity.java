@@ -27,6 +27,25 @@ public class PostEntity {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    public PostEntity() {
+    }
+
+    public PostEntity(Long id, String title, String slug, String content, String banner, LocalDateTime createdAt) {
+        this.id = id;
+        this.title = title;
+        this.slug = slug;
+        this.content = content;
+        this.banner = banner;
+        this.createdAt = createdAt;
+    }
+
+    public PostEntity(String title, String slug, String content, String banner) {
+        this.title = title;
+        this.slug = slug;
+        this.content = content;
+        this.banner = banner;
+    }
+
     public static PostEntity fromModel(Post post) {
         PostEntity postEntity = new PostEntity();
         postEntity.setId(post.getId());
