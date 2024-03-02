@@ -1,6 +1,7 @@
 package com.institutosemprealerta.semprealerta.infrastructure.entity.post.mocks;
 
 import com.github.javafaker.Faker;
+import com.institutosemprealerta.semprealerta.domain.model.Post;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.post.PostEntity;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.post.PostEntityFactory;
 
@@ -38,6 +39,39 @@ public class PostMocks {
 
     public static PostEntity returnValidPostToBeUpdated() {
         return PostEntityFactory.INSTANCE.createPostEntity(
+                id,
+                title,
+                slug,
+                faker.dune().saying(),
+                banner,
+                createdAt
+        );
+    }
+
+    public static Post returnValidPostModel() {
+        return new Post(
+                id,
+                title,
+                slug,
+                content,
+                banner,
+                createdAt
+        );
+    }
+
+    public static Post returnValidPostModelToBeCreated() {
+        return new Post(
+                null,
+                title,
+                slug,
+                content,
+                banner,
+                null
+        );
+    }
+
+    public static Post returnValidPostModelToBeUpdated() {
+        return new Post(
                 id,
                 title,
                 slug,
