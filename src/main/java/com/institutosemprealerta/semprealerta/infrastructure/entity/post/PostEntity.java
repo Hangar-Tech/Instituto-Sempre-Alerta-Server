@@ -24,6 +24,7 @@ public class PostEntity {
     private String content;
     private String banner;
     @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     public static PostEntity fromModel(Post post) {
@@ -37,7 +38,11 @@ public class PostEntity {
     }
 
     public static Post toModel(PostEntity postEntity) {
-        return new Post(postEntity.getId(), postEntity.getTitle(), postEntity.getSlug(), postEntity.getContent(), postEntity.getBanner());
+        return new Post(postEntity.getId(), postEntity.getTitle(), postEntity.getSlug(), postEntity.getContent(), postEntity.getBanner(), postEntity.getCreatedAt());
+    }
+
+    public Post toModel() {
+        return new Post(this.getId(), this.getTitle(), this.getSlug(), this.getContent(), this.getBanner(), this.getCreatedAt());
     }
 
 }

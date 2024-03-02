@@ -5,6 +5,6 @@ CREATE TABLE posts
     slug       VARCHAR(255)                            NOT NULL,
     content    TEXT,
     banner     VARCHAR(255),
-    created_at TIMESTAMP WITHOUT TIME ZONE,
+    created_at TIMESTAMP WITHOUT TIME ZONE             NOT NULL,
     CONSTRAINT pk_posts PRIMARY KEY (id)
 );
