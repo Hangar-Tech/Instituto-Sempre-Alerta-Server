@@ -2,6 +2,7 @@ package com.institutosemprealerta.semprealerta.infrastructure.controllers;
 
 import com.institutosemprealerta.semprealerta.application.service.PostService;
 import com.institutosemprealerta.semprealerta.domain.model.Post;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createPost(@RequestBody Post post) {
+    public ResponseEntity<?> createPost(@Valid @RequestBody Post post) {
         String slug = postService.save(post);
         return ResponseEntity.created(URI.create("/api/v1/posts/" + slug)).build();
     }
@@ -36,7 +37,7 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody Post post) {
+    public ResponseEntity<?> updatePost(@PathVariable Long id, @Valid @RequestBody Post post) {
         postService.update(id, post);
         return ResponseEntity.noContent().build();
     }

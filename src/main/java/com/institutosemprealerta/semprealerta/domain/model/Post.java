@@ -1,5 +1,6 @@
 package com.institutosemprealerta.semprealerta.domain.model;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,10 +11,13 @@ import java.time.LocalDateTime;
 public class Post {
 
     private Long id;
+    @NotBlank
     private String title;
     private String slug;
 
+    @NotBlank
     private String content;
+    @NotBlank
     private String banner;
     private LocalDateTime createdAt;
 
