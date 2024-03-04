@@ -63,6 +63,7 @@ public class GlobalExceptionHandler {
                         .build()
         );
     }
+
     @ExceptionHandler(FileNotFoundException.class)
     public ResponseEntity<ExceptionPattern> handlerFileNotFoundException(FileNotFoundException bre) {
         LocalDateTime timestamp = LocalDateTime.now();

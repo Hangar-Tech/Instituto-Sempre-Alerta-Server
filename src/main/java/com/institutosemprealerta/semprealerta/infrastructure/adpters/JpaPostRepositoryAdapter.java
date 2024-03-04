@@ -9,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class JpaPostRepositoryAdapter implements PostRepository {
     private final JpaPostRepository jpaPostRepository;
@@ -21,6 +19,13 @@ public class JpaPostRepositoryAdapter implements PostRepository {
 
     @Override
     public String save(Post post) {
+        boolean slugAlreadyExists = slugAlreadyExists(post.getSlug());
+
+        if (slugAlreadyExists) {
+            String newSlug = post.getSlug() + "-" + Math.random();
+            post.setSlug(newSlug);
+        }
+
         PostEntity postToSave = PostEntity.fromModel(post);
         PostEntity postSaved = jpaPostRepository.save(postToSave);
         return postSaved.getSlug();
@@ -58,5 +63,9 @@ public class JpaPostRepositoryAdapter implements PostRepository {
         return jpaPostRepository.findById(id)
                 .map(postEntity -> PostEntity.toModel(postEntity))
                 .orElseThrow(() -> new PostNotFoundException("Post not found"));
+    }
+
+    private boolean slugAlreadyExists(String slug) {
+        return jpaPostRepository.findBySlug(slug).isPresent();
     }
 }
