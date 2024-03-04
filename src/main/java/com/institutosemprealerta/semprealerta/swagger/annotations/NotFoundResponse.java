@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ApiResponse(responseCode = "404", description = "Resource not found",
+@ApiResponse(responseCode = "404", description = "Objeto não encontrado",
         content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionPattern.class)))
 public @interface NotFoundResponse {
 }

@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ApiResponse(responseCode = "204", description = "Request finished successfully without content", useReturnTypeSchema = true)
+@ApiResponse(responseCode = "204", description = "Requisição bem sucedida e sem retorno", useReturnTypeSchema = true)
 public @interface NoContentResponse {
 }

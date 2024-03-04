@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ApiResponse(responseCode = "409", description = "There are some conflicts",
+@ApiResponse(responseCode = "409", description = "Possui alguns conflitos na requisição",
         content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionPattern.class)))
 public @interface ConflictResponse {
 }

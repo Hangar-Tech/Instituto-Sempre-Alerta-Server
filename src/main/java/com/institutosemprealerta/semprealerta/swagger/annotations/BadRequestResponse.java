@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ApiResponse(responseCode = "400", description = "Error on client side",
+@ApiResponse(responseCode = "400", description = "Erro de requisição inválida, no lado do cliente",
         content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionPattern.class)))
 public @interface BadRequestResponse {
 }

@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ApiResponse(responseCode = "201", description = "Created Successfully", useReturnTypeSchema = true)
+@ApiResponse(responseCode = "201", description = "Criado com sucesso", useReturnTypeSchema = true)
 public @interface CreatedResponse {
 }

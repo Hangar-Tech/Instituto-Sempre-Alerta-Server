@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ApiResponse(responseCode = "200", description = "Request finished successfully", useReturnTypeSchema = true)
+@ApiResponse(responseCode = "200", description = "Requisição finalizada com sucesso", useReturnTypeSchema = true)
 public @interface OkResponse {
 }
