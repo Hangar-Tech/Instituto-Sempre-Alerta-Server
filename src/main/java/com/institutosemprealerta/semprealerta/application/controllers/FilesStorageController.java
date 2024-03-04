@@ -2,6 +2,8 @@ package com.institutosemprealerta.semprealerta.application.controllers;
 
 import com.institutosemprealerta.semprealerta.domain.service.StorageService;
 import com.institutosemprealerta.semprealerta.domain.ports.out.responses.FileResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +19,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/v1/files")
+@Tag(name = "Files", description = "Files management")
 public class FilesStorageController {
     private StorageService storageService;
 
@@ -24,8 +27,9 @@ public class FilesStorageController {
         this.storageService = storageService;
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("file_type") String fileType) {
+    @Operation(summary = "Upload a file", description = "Upload a file to the server")
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadFile(@RequestPart("file") MultipartFile file, @RequestParam("file_type") String fileType) {
 
         String fileName = storageService.store(file, fileType);
 
@@ -39,6 +43,7 @@ public class FilesStorageController {
 
     @GetMapping("/download/{fileName:.+}")
     @ResponseBody
+    @Operation(summary = "Download a file", description = "Download a file from the server")
     public ResponseEntity<Resource> downloadFile(
             @PathVariable String fileName,
             HttpServletRequest request
