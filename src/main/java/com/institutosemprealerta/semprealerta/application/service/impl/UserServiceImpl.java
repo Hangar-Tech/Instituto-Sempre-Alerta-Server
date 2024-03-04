@@ -1,6 +1,7 @@
 package com.institutosemprealerta.semprealerta.application.service.impl;
 
 import com.institutosemprealerta.semprealerta.application.service.UserService;
+import com.institutosemprealerta.semprealerta.domain.ports.out.exceptions.user.UserNotFoundException;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
 import com.institutosemprealerta.semprealerta.domain.ports.out.UserRepository;
 import org.springframework.stereotype.Service;
@@ -38,12 +39,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByEmail(String email) {
         return this.userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     @Override
     public User findById(int id) {
         return this.userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 }

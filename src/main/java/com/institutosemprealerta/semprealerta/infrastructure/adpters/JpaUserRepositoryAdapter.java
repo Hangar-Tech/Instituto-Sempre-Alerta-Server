@@ -1,6 +1,7 @@
 package com.institutosemprealerta.semprealerta.infrastructure.adpters;
 
 import com.institutosemprealerta.semprealerta.domain.ports.out.UserRepository;
+import com.institutosemprealerta.semprealerta.domain.ports.out.exceptions.user.UserNotFoundException;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
 import com.institutosemprealerta.semprealerta.infrastructure.repositories.JpaUserRepository;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,7 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     @Override
     public void update(int id, User user) {
         User userToUpdate = this.userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         user.setId(userToUpdate.getId());
         user.setRegistration(userToUpdate.getRegistration());
