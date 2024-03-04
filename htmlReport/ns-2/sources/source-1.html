@@ -1,0 +1,166 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PostServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.institutosemprealerta.semprealerta.application.service.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: PostServiceImpl (com.institutosemprealerta.semprealerta.application.service.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PostServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.institutosemprealerta.semprealerta.application.service.impl;
+&nbsp;
+&nbsp;import com.institutosemprealerta.semprealerta.application.service.PostService;
+&nbsp;import com.institutosemprealerta.semprealerta.domain.model.Post;
+&nbsp;import com.institutosemprealerta.semprealerta.domain.ports.in.SlugGenerator;
+&nbsp;import com.institutosemprealerta.semprealerta.domain.ports.out.PostRepository;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class PostServiceImpl implements PostService {
+&nbsp;    private final PostRepository postRepository;
+&nbsp;    private final SlugGenerator slugGenerator;
+&nbsp;
+<b class="fc">&nbsp;    public PostServiceImpl(PostRepository postRepository, SlugGenerator slugGenerator) {</b>
+<b class="fc">&nbsp;        this.postRepository = postRepository;</b>
+<b class="fc">&nbsp;        this.slugGenerator = slugGenerator;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String save(Post post) {
+<b class="fc">&nbsp;        String slug = this.generateSlug(post.getTitle());</b>
+<b class="fc">&nbsp;        post.setSlug(slug);</b>
+&nbsp;
+<b class="fc">&nbsp;        return postRepository.save(post);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void delete(Long id) {
+<b class="fc">&nbsp;        postRepository.delete(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void update(Long id, Post post) {
+<b class="fc">&nbsp;        String slug = this.generateSlug(post.getTitle());</b>
+<b class="fc">&nbsp;        post.setSlug(slug);</b>
+<b class="fc">&nbsp;        postRepository.update(id, post);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Page&lt;Post&gt; listAll(Pageable pageable) {
+<b class="fc">&nbsp;        return postRepository.listAll(pageable);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Post findBySlug(String slug) {
+<b class="fc">&nbsp;        return postRepository.findBySlug(slug);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Post findById(Long id) {
+<b class="fc">&nbsp;        return postRepository.findById(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private String generateSlug(String title) {
+<b class="fc">&nbsp;        return  slugGenerator.generate(title);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-02 15:03</div>
+</div>
+</body>
+</html>

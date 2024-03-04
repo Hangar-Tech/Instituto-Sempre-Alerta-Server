@@ -1,0 +1,162 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserDTO</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.institutosemprealerta.semprealerta.domain.model</a>
+</div>
+
+<h1>Coverage Summary for Class: UserDTO (com.institutosemprealerta.semprealerta.domain.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserDTO</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.institutosemprealerta.semprealerta.domain.model;
+&nbsp;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonFormat;
+&nbsp;import com.institutosemprealerta.semprealerta.infrastructure.entity.user.Address;
+&nbsp;import com.institutosemprealerta.semprealerta.infrastructure.entity.user.Contact;
+&nbsp;import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
+&nbsp;import com.institutosemprealerta.semprealerta.infrastructure.entity.user.UserRoles;
+&nbsp;import com.institutosemprealerta.semprealerta.utils.DateManipulation;
+&nbsp;import jakarta.validation.constraints.*;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.time.format.DateTimeFormatter;
+&nbsp;
+<b class="fc">&nbsp;public record UserDTO(</b>
+&nbsp;        @NotBlank
+&nbsp;        String name,
+&nbsp;        @Email
+&nbsp;        String email,
+&nbsp;        @NotBlank
+&nbsp;        String password,
+&nbsp;        @NotBlank
+&nbsp;        String phone,
+&nbsp;        String gender,
+&nbsp;        @PastOrPresent
+&nbsp;        LocalDate birthDate,
+&nbsp;        @NotNull
+&nbsp;        UserRoles roles,
+&nbsp;        String street,
+&nbsp;        String number,
+&nbsp;        String city,
+&nbsp;        String zipCode
+&nbsp;
+&nbsp;) {
+&nbsp;    public User toDomain() {
+&nbsp;        //LocalDate birth = DateManipulation.stringToLocalDate(birthDate);
+<b class="fc">&nbsp;        Contact contact = new Contact(</b>
+&nbsp;                email,
+&nbsp;                phone
+&nbsp;        );
+&nbsp;
+<b class="fc">&nbsp;        Address address = new Address(</b>
+&nbsp;                street,
+&nbsp;                number,
+&nbsp;                city,
+&nbsp;                zipCode
+&nbsp;        );
+<b class="fc">&nbsp;        return new User(</b>
+&nbsp;                name,
+&nbsp;                password,
+&nbsp;                gender,
+&nbsp;                birthDate,
+&nbsp;                roles,
+&nbsp;                contact,
+&nbsp;                address
+&nbsp;        );
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-02 15:03</div>
+</div>
+</body>
+</html>
