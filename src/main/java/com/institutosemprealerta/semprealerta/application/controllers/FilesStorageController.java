@@ -2,6 +2,12 @@ package com.institutosemprealerta.semprealerta.application.controllers;
 
 import com.institutosemprealerta.semprealerta.domain.service.StorageService;
 import com.institutosemprealerta.semprealerta.domain.ports.out.responses.FileResponse;
+import com.institutosemprealerta.semprealerta.swagger.annotations.BadRequestResponse;
+import com.institutosemprealerta.semprealerta.swagger.annotations.CreatedResponse;
+import com.institutosemprealerta.semprealerta.swagger.annotations.NotFoundResponse;
+import com.institutosemprealerta.semprealerta.swagger.annotations.OkResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -13,10 +19,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 @Controller
 @RequestMapping("/api/v1/files")
+@Tag(name = "Files", description = "Files management")
 public class FilesStorageController {
     private StorageService storageService;
 
@@ -24,8 +32,11 @@ public class FilesStorageController {
         this.storageService = storageService;
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("file_type") String fileType) {
+    @Operation(summary = "Faça o upload de um arquivo", description = "Upload de um arquivo para o servidor")
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @CreatedResponse
+    @BadRequestResponse
+    public ResponseEntity<String> uploadFile(@RequestPart("file") MultipartFile file, @RequestParam("file_type") String fileType) {
 
         String fileName = storageService.store(file, fileType);
 
@@ -34,11 +45,16 @@ public class FilesStorageController {
                 .path(fileName)
                 .toUriString();
 
-        return ResponseEntity.ok("File uploaded successfully, file name: " + fileName + " on path: " + fileDownloadUri);
+        URI uri = URI.create(fileDownloadUri);
+        return ResponseEntity.created(uri).body("File uploaded successfully, file name: " + fileName + " on path: " + fileDownloadUri);
     }
 
     @GetMapping("/download/{fileName:.+}")
     @ResponseBody
+    @Operation(summary = "Download de um arquivo", description = "Baixe um arquivo pelo nome do arquivo")
+    @OkResponse
+    @NotFoundResponse
+    @BadRequestResponse
     public ResponseEntity<Resource> downloadFile(
             @PathVariable String fileName,
             HttpServletRequest request
@@ -62,6 +78,9 @@ public class FilesStorageController {
     }
 
     @GetMapping("/list")
+    @Operation(summary = "List todos os arquivos", description = "Liste todos os arquivos do servidor")
+    @OkResponse
+    @BadRequestResponse
     public ResponseEntity<List<FileResponse>> listFiles() throws IOException {
         List<FileResponse> fileNames = storageService.loadAll();
 
