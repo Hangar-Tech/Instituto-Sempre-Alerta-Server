@@ -3,6 +3,8 @@ package com.institutosemprealerta.semprealerta.application.service.impl;
 import com.institutosemprealerta.semprealerta.application.service.StorageService;
 import com.institutosemprealerta.semprealerta.domain.model.File;
 import com.institutosemprealerta.semprealerta.domain.ports.out.FileRepository;
+import com.institutosemprealerta.semprealerta.domain.ports.out.exceptions.file.FileNotFoundException;
+import com.institutosemprealerta.semprealerta.domain.ports.out.exceptions.file.InvalidFileException;
 import com.institutosemprealerta.semprealerta.domain.ports.out.responses.FileResponse;
 import com.institutosemprealerta.semprealerta.infrastructure.config.FileStorageProperties;
 import lombok.extern.log4j.Log4j2;
@@ -44,7 +46,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public String store(MultipartFile file, String fileType) {
         if (file.getOriginalFilename() == null || file.getOriginalFilename().isEmpty()) {
-            throw new RuntimeException("File name is empty");
+            throw new InvalidFileException("File name is empty");
         }
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
@@ -64,7 +66,7 @@ public class StorageServiceImpl implements StorageService {
 
             this.fileRepository.save(fileData);
         } catch (IOException e) {
-            throw new RuntimeException("Could not store file " + fileName + ". Please try again!", e);
+            throw new InvalidFileException("Could not store file " + fileName + ". Please try again!");
         }
         return fileName;
     }
@@ -79,7 +81,7 @@ public class StorageServiceImpl implements StorageService {
     public Path load(String filename) {
         Path file = fileStorageLocation.resolve(filename).normalize();
         if (!Files.exists(file)) {
-            throw new RuntimeException("File not found " + filename);
+            throw new FileNotFoundException("File not found " + filename);
         }
         return file;
     }
@@ -90,18 +92,17 @@ public class StorageServiceImpl implements StorageService {
         try {
             return new UrlResource(fileUri);
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            throw new InvalidFileException("Throwing exception when trying to read file " + filename + e.getMessage());
         }
     }
 
     @Override
     public void delete(String filename) {
         Path file = load(filename);
-
         try {
             Files.deleteIfExists(file);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FileNotFoundException("File not found " + filename);
         }
     }
 

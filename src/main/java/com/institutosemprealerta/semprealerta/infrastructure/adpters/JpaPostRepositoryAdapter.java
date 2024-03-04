@@ -2,6 +2,7 @@ package com.institutosemprealerta.semprealerta.infrastructure.adpters;
 
 import com.institutosemprealerta.semprealerta.domain.model.Post;
 import com.institutosemprealerta.semprealerta.domain.ports.out.PostRepository;
+import com.institutosemprealerta.semprealerta.domain.ports.out.exceptions.post.PostNotFoundException;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.post.PostEntity;
 import com.institutosemprealerta.semprealerta.infrastructure.repositories.JpaPostRepository;
 import org.springframework.data.domain.Page;
@@ -49,13 +50,13 @@ public class JpaPostRepositoryAdapter implements PostRepository {
     public Post findBySlug(String slug) {
         return jpaPostRepository.findBySlug(slug)
                 .map(postEntity -> PostEntity.toModel(postEntity))
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new PostNotFoundException("Post not found"));
     }
 
     @Override
     public Post findById(Long id) {
         return jpaPostRepository.findById(id)
                 .map(postEntity -> PostEntity.toModel(postEntity))
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new PostNotFoundException("Post not found"));
     }
 }
