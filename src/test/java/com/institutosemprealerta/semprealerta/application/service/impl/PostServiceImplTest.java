@@ -3,7 +3,7 @@ package com.institutosemprealerta.semprealerta.application.service.impl;
 import com.institutosemprealerta.semprealerta.domain.model.Post;
 import com.institutosemprealerta.semprealerta.domain.ports.in.SlugGenerator;
 import com.institutosemprealerta.semprealerta.domain.ports.out.PostRepository;
-import com.institutosemprealerta.semprealerta.infrastructure.entity.post.PostEntity;
+import com.institutosemprealerta.semprealerta.domain.service.impl.PostServiceImpl;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.post.mocks.PostMocks;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,14 +1,12 @@
-package com.institutosemprealerta.semprealerta.application.service.impl;
+package com.institutosemprealerta.semprealerta.domain.service.impl;
 
-import com.institutosemprealerta.semprealerta.application.service.PostService;
+import com.institutosemprealerta.semprealerta.domain.service.PostService;
 import com.institutosemprealerta.semprealerta.domain.model.Post;
 import com.institutosemprealerta.semprealerta.domain.ports.in.SlugGenerator;
 import com.institutosemprealerta.semprealerta.domain.ports.out.PostRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {

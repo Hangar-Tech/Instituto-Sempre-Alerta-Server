@@ -1,4 +1,4 @@
-package com.institutosemprealerta.semprealerta.application.service;
+package com.institutosemprealerta.semprealerta.domain.service;
 
 import com.institutosemprealerta.semprealerta.domain.model.Post;
 import org.springframework.data.domain.Page;

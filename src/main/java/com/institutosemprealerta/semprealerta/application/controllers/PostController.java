@@ -1,6 +1,6 @@
-package com.institutosemprealerta.semprealerta.infrastructure.controllers;
+package com.institutosemprealerta.semprealerta.application.controllers;
 
-import com.institutosemprealerta.semprealerta.application.service.PostService;
+import com.institutosemprealerta.semprealerta.domain.service.PostService;
 import com.institutosemprealerta.semprealerta.domain.model.Post;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/posts")

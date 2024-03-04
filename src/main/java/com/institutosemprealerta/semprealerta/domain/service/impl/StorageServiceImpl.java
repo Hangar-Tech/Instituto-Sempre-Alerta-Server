@@ -1,13 +1,12 @@
-package com.institutosemprealerta.semprealerta.application.service.impl;
+package com.institutosemprealerta.semprealerta.domain.service.impl;
 
-import com.institutosemprealerta.semprealerta.application.service.StorageService;
+import com.institutosemprealerta.semprealerta.domain.service.StorageService;
 import com.institutosemprealerta.semprealerta.domain.model.File;
 import com.institutosemprealerta.semprealerta.domain.ports.out.FileRepository;
 import com.institutosemprealerta.semprealerta.domain.ports.out.exceptions.file.FileNotFoundException;
 import com.institutosemprealerta.semprealerta.domain.ports.out.exceptions.file.InvalidFileException;
 import com.institutosemprealerta.semprealerta.domain.ports.out.responses.FileResponse;
 import com.institutosemprealerta.semprealerta.infrastructure.config.FileStorageProperties;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;

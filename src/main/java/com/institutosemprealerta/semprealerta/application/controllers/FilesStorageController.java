@@ -1,7 +1,6 @@
-package com.institutosemprealerta.semprealerta.infrastructure.controllers;
+package com.institutosemprealerta.semprealerta.application.controllers;
 
-import com.institutosemprealerta.semprealerta.application.service.StorageService;
-import com.institutosemprealerta.semprealerta.domain.model.File;
+import com.institutosemprealerta.semprealerta.domain.service.StorageService;
 import com.institutosemprealerta.semprealerta.domain.ports.out.responses.FileResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.io.Resource;

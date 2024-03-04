@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 public class Post {
 
     private Long id;
-    @NotBlank
+    @NotBlank(message = "Title is mandatory")
     private String title;
     private String slug;
 
-    @NotBlank
+    @NotBlank(message = "Content is mandatory")
     private String content;
-    @NotBlank
+    @NotBlank(message = "Banner is mandatory")
     private String banner;
     private LocalDateTime createdAt;
 

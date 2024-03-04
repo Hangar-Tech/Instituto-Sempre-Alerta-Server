@@ -1,6 +1,7 @@
 package com.institutosemprealerta.semprealerta.application.service.impl;
 
 import com.institutosemprealerta.semprealerta.domain.ports.out.UserRepository;
+import com.institutosemprealerta.semprealerta.domain.service.impl.UserServiceImpl;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.mocks.UserMocks;
 import org.junit.jupiter.api.AfterEach;

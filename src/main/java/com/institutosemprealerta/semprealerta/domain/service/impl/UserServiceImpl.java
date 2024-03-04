@@ -1,6 +1,6 @@
-package com.institutosemprealerta.semprealerta.application.service.impl;
+package com.institutosemprealerta.semprealerta.domain.service.impl;
 
-import com.institutosemprealerta.semprealerta.application.service.UserService;
+import com.institutosemprealerta.semprealerta.domain.service.UserService;
 import com.institutosemprealerta.semprealerta.domain.ports.out.exceptions.user.UserNotFoundException;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
 import com.institutosemprealerta.semprealerta.domain.ports.out.UserRepository;
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByRegistration(String registration) {
         return this.userRepository.findByRegistration(registration)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     @Override

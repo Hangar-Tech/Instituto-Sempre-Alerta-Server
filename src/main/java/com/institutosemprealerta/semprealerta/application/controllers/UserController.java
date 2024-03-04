@@ -1,11 +1,10 @@
-package com.institutosemprealerta.semprealerta.infrastructure.controllers;
+package com.institutosemprealerta.semprealerta.application.controllers;
 
-import com.institutosemprealerta.semprealerta.application.service.UserService;
+import com.institutosemprealerta.semprealerta.domain.service.UserService;
 import com.institutosemprealerta.semprealerta.domain.model.UserDTO;
 import com.institutosemprealerta.semprealerta.domain.ports.out.responses.UserResponse;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
 import jakarta.validation.Valid;
-import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

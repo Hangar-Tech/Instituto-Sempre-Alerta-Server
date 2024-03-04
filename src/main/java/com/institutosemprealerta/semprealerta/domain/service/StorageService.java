@@ -1,4 +1,4 @@
-package com.institutosemprealerta.semprealerta.application.service;
+package com.institutosemprealerta.semprealerta.domain.service;
 
 import com.institutosemprealerta.semprealerta.domain.model.File;
 import com.institutosemprealerta.semprealerta.domain.ports.out.responses.FileResponse;
