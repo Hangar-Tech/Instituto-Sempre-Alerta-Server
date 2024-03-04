@@ -1,6 +1,7 @@
 package com.institutosemprealerta.semprealerta.infrastructure.controllers;
 
-import com.institutosemprealerta.semprealerta.application.service.StorageService;
+import com.institutosemprealerta.semprealerta.application.controllers.FilesStorageController;
+import com.institutosemprealerta.semprealerta.domain.service.StorageService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

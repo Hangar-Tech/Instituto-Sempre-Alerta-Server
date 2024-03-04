@@ -2,13 +2,12 @@ package com.institutosemprealerta.semprealerta.infrastructure.adpters;
 
 import com.institutosemprealerta.semprealerta.domain.model.Post;
 import com.institutosemprealerta.semprealerta.domain.ports.out.PostRepository;
+import com.institutosemprealerta.semprealerta.domain.ports.out.exceptions.post.PostNotFoundException;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.post.PostEntity;
 import com.institutosemprealerta.semprealerta.infrastructure.repositories.JpaPostRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class JpaPostRepositoryAdapter implements PostRepository {
@@ -20,6 +19,13 @@ public class JpaPostRepositoryAdapter implements PostRepository {
 
     @Override
     public String save(Post post) {
+        boolean slugAlreadyExists = slugAlreadyExists(post.getSlug());
+
+        if (slugAlreadyExists) {
+            String newSlug = post.getSlug() + "-" + Math.random();
+            post.setSlug(newSlug);
+        }
+
         PostEntity postToSave = PostEntity.fromModel(post);
         PostEntity postSaved = jpaPostRepository.save(postToSave);
         return postSaved.getSlug();
@@ -49,13 +55,17 @@ public class JpaPostRepositoryAdapter implements PostRepository {
     public Post findBySlug(String slug) {
         return jpaPostRepository.findBySlug(slug)
                 .map(postEntity -> PostEntity.toModel(postEntity))
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new PostNotFoundException("Post not found"));
     }
 
     @Override
     public Post findById(Long id) {
         return jpaPostRepository.findById(id)
                 .map(postEntity -> PostEntity.toModel(postEntity))
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new PostNotFoundException("Post not found"));
+    }
+
+    private boolean slugAlreadyExists(String slug) {
+        return jpaPostRepository.findBySlug(slug).isPresent();
     }
 }

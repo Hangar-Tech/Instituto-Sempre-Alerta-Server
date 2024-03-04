@@ -1,6 +1,7 @@
 package com.institutosemprealerta.semprealerta.infrastructure.controllers;
 
-import com.institutosemprealerta.semprealerta.application.service.PostService;
+import com.institutosemprealerta.semprealerta.application.controllers.PostController;
+import com.institutosemprealerta.semprealerta.domain.service.PostService;
 import com.institutosemprealerta.semprealerta.domain.model.Post;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.post.mocks.PostMocks;
 import org.junit.jupiter.api.AfterEach;
