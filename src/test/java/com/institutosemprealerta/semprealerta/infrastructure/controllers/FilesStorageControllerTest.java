@@ -88,7 +88,7 @@ class FilesStorageControllerTest {
         ResponseEntity<String> responseEntity = filesStorageController.uploadFile(mockFile, fileType);
 
         assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals(expected, responseEntity.getBody());
     }
 
