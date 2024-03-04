@@ -32,7 +32,7 @@ public class FilesStorageController {
         this.storageService = storageService;
     }
 
-    @Operation(summary = "Upload a file", description = "Upload a file to the server")
+    @Operation(summary = "Faça o upload de um arquivo", description = "Upload de um arquivo para o servidor")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @CreatedResponse
     @BadRequestResponse
@@ -51,7 +51,7 @@ public class FilesStorageController {
 
     @GetMapping("/download/{fileName:.+}")
     @ResponseBody
-    @Operation(summary = "Download a file", description = "Download a file from the server")
+    @Operation(summary = "Download de um arquivo", description = "Baixe um arquivo pelo nome do arquivo")
     @OkResponse
     @NotFoundResponse
     @BadRequestResponse
@@ -78,7 +78,7 @@ public class FilesStorageController {
     }
 
     @GetMapping("/list")
-    @Operation(summary = "List all files", description = "List all files from the server")
+    @Operation(summary = "List todos os arquivos", description = "Liste todos os arquivos do servidor")
     @OkResponse
     @BadRequestResponse
     public ResponseEntity<List<FileResponse>> listFiles() throws IOException {
