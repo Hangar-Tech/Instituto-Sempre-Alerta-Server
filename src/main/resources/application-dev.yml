@@ -22,4 +22,8 @@ file:
   upload-dir: pdf
 springdoc:
   show-actuator: true
+api:
+  security:
+    token:
+      secret: ${SECRET:secret}
 

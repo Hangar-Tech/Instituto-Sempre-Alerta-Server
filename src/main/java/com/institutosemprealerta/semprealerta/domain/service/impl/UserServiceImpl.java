@@ -4,6 +4,7 @@ import com.institutosemprealerta.semprealerta.domain.service.UserService;
 import com.institutosemprealerta.semprealerta.domain.ports.out.exceptions.user.UserNotFoundException;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.User;
 import com.institutosemprealerta.semprealerta.domain.ports.out.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
+        String newPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+
+        user.setPassword(newPassword);
         this.userRepository.save(user);
     }
 

@@ -1,6 +1,7 @@
 file:
   upload-dir: pdf
 
-spring:
-  profiles:
-    active: dev
+api:
+  security:
+    token:
+      secret: ${SECRET:secret}
