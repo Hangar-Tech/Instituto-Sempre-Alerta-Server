@@ -13,11 +13,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfigurations {
+
+    private final securtityFilter securtityFilter;
 
     private final String[] AUTH_SWAGGER_WHITELIST = {
             "/swagger-ui/**",
@@ -50,6 +53,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/posts/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(securtityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
