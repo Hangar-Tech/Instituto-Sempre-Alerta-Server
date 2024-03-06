@@ -1,0 +1,7 @@
+file:
+  upload-dir: pdf
+
+api:
+  security:
+    token:
+      secret: ${SECRET:secret}
