@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
                 ExceptionPattern.builder()
                         .title("User Not Found Exception")
                         .status(HttpStatus.NOT_FOUND.value())
-                        .details("User not found")
+                        .details(exception.getMessage())
                         .timestamp(timestamp)
                         .developerMessage(exception.getClass().getName())
                         .build()

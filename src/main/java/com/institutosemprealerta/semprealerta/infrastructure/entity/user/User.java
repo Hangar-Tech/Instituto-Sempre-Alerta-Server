@@ -7,9 +7,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 
@@ -17,7 +22,7 @@ import java.util.Random;
 @Table(name = "users")
 @Getter
 @Setter
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -54,14 +59,13 @@ public class User {
     }
 
 
-
     @PrePersist
     public void generateRegistration() {
         String prefix = this.name.substring(0, 3).toLowerCase() + "-";
         this.registration = generateRegistration(prefix);
     }
 
-    private String  generateRegistration(String prefix) {
+    private String generateRegistration(String prefix) {
         StringBuilder registration = new StringBuilder(prefix);
         Random random = new Random();
 
@@ -84,5 +88,39 @@ public class User {
                 new Contact(dto.email(), dto.phone()),
                 new Address(dto.street(), dto.number(), dto.city(), dto.zipCode())
         );
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.roles == UserRoles.ADMIN) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        } else {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+    }
+
+    @Override
+    public String getUsername() {
+        return this.contact.getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
