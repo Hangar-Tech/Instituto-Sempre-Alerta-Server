@@ -1,6 +1,7 @@
 package com.institutosemprealerta.semprealerta.infrastructure.entity.user.mocks;
 
 import com.institutosemprealerta.semprealerta.domain.model.UserDTO;
+import com.institutosemprealerta.semprealerta.domain.ports.out.request.LoginDTO;
 import com.institutosemprealerta.semprealerta.infrastructure.entity.user.*;
 
 import java.time.LocalDate;
@@ -61,6 +62,13 @@ public class UserMocks {
                 user.getAddress().getNumber(),
                 user.getAddress().getCity(),
                 user.getAddress().getZipCode()
+        );
+    }
+
+    public static LoginDTO returnValidLoginDTO() {
+        return LoginFactory.INSTANCE.createNewLoginDTO(
+                "user@email.com",
+                "1234"
         );
     }
 }

@@ -1,6 +1,7 @@
 package com.institutosemprealerta.semprealerta.application.controllers;
 
 import com.institutosemprealerta.semprealerta.domain.ports.out.request.LoginDTO;
+import com.institutosemprealerta.semprealerta.domain.ports.out.responses.LoginResponse;
 import com.institutosemprealerta.semprealerta.domain.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,6 +27,7 @@ public class AuthenticationController {
     @Operation(summary = "Login", description = "You can login with your email and password")
 
     public ResponseEntity<?> login(@RequestBody @Valid LoginDTO loginRequestBody) {
-        return ResponseEntity.ok(authenticationService.login(loginRequestBody));
+        LoginResponse token = authenticationService.login(loginRequestBody);
+        return ResponseEntity.ok(token);
     }
 }
