@@ -1,0 +1,44 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    restart: always
+    hostname: db
+    environment:
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=semprealerta
+    ports:
+      - "5431:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "psql -h localhost -U postgres -d semprealerta -c 'SELECT 1;'" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    volumes:
+      - ./.docker/db/data:/var/lib/postgresql/:delegated
+
+  api: 
+    image: matheusvict/sempre-alerta:latest
+    hostname: api
+    environment:
+      - SPRING.PROFILES.ACTIVE=prod
+      - PGHOST=db
+      - PGPORT=5432
+      - PGDATABASE=semprealerta
+      - PGUSER=postgres
+      - PGPASSWORD=123
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+       condition: service_healthy
+
+networks:
+  default:
+    driver: bridge
+    name: sempre-alerta
+
+ 
+ 
+ 
